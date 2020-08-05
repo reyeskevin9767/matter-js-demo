@@ -40,15 +40,40 @@ World.add(
   world,
   MouseConstraint.create(engine, {
     mouse: Mouse.create(render.canvas),
+    constraint: {
+      render: {
+        visible: false,
+      },
+    },
   })
 );
 
 //* Walls
 const walls = [
-  Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
-  Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
-  Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
-  Bodies.rectangle(800, 300, 40, 600, { isStatic: true }),
+  Bodies.rectangle(400, 0, 800, 40, {
+    isStatic: true,
+    render: {
+      visible: false,
+    },
+  }),
+  Bodies.rectangle(400, 600, 800, 40, {
+    isStatic: true,
+    render: {
+      visible: false,
+    },
+  }),
+  Bodies.rectangle(0, 300, 40, 600, {
+    isStatic: true,
+    render: {
+      visible: false,
+    },
+  }),
+  Bodies.rectangle(800, 300, 40, 600, {
+    isStatic: true,
+    render: {
+      visible: false,
+    },
+  }),
 ];
 
 //* Add Walls to the world
@@ -56,17 +81,23 @@ World.add(world, walls);
 
 //* Random Shapes
 for (let i = 0; i < 50; i++) {
-  if (Math.random() > 0.5) {
+  if (Math.random() >= 0.7) {
     World.add(
       world,
       Bodies.rectangle(Math.random() * width, Math.random() * height, 50, 50)
     );
+  } else if (Math.random() < 0.7 && Math.random() >= 0.3) {
+    World.add(
+      world,
+      Bodies.circle(Math.random() * width, Math.random() * height, 25)
+    );
   } else {
     World.add(
       world,
-      Bodies.circle(Math.random() * width, Math.random() * height, 35, {
-        fillStyle: 'red',
-      })
+      Bodies.trapezoid(Math.random() * width, Math.random() * height, 50, 50, 2)
     );
   }
 }
+
+//* When objects leave the canvas
+Matter.World.remove(world, body);
