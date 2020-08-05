@@ -98,6 +98,3 @@ for (let i = 0; i < 50; i++) {
     );
   }
 }
-
-//* When objects leave the canvas
-Matter.World.remove(world, body);
