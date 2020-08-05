@@ -1,10 +1,22 @@
 //* Engine - Transition from one state to another
-//* Render - Draw onto screen
+//* Render - Draw onto webpage
 //* Runner - Coordinate the Engine and World
 //* World - Snapshot of the world
 //* Bodies - Geometry in the world
-const { Engine, Render, Runner, World, Bodies, MouseConstraint, Mouse } = Matter;
+const {
+  Engine,
+  Render,
+  Runner,
+  World,
+  Bodies,
+  MouseConstraint,
+  Mouse,
+} = Matter;
 
+const width = 800;
+const height = 600;
+
+//* Create New Engine
 const engine = Engine.create();
 const { world } = engine;
 
@@ -13,11 +25,13 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
-    width: 800,
-    height: 600,
+    wireframes: false,
+    width: width,
+    height: height,
   },
 });
 
+//* Render all updates to webpage
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
@@ -40,10 +54,19 @@ const walls = [
 //* Add Walls to the world
 World.add(world, walls);
 
-//* Create a new shape
-const shape = Bodies.rectangle(200, 200, 50, 50, {
-  isStatic: true,
-});
-
-//* Add shape to the world
-World.add(world, shape);
+//* Random Shapes
+for (let i = 0; i < 50; i++) {
+  if (Math.random() > 0.5) {
+    World.add(
+      world,
+      Bodies.rectangle(Math.random() * width, Math.random() * height, 50, 50)
+    );
+  } else {
+    World.add(
+      world,
+      Bodies.circle(Math.random() * width, Math.random() * height, 35, {
+        fillStyle: 'red',
+      })
+    );
+  }
+}
